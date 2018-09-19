@@ -1,0 +1,22 @@
+{
+  "name": "flic2action",
+  "version": "1.0.0",
+  "description": "Package to select a winner from a list and send it to slack",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tom5om/flic.git"
+  },
+  "author": "Tom Somerville",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Tom5om/flic/issues"
+  },
+  "homepage": "https://github.com/Tom5om/flic#readme",
+  "dependencies": {
+    "axios": "^0.18.0"
+  }
+}
