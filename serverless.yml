@@ -42,8 +42,10 @@ provider:
 #            - "/*"
 
 # you can define service wide environment variables here
-#  environment:
-#    variable1: value1
+  environment:
+      DATABASE_NAME: ${file(./secrets/secrets.json):DATABASE_NAME}
+      INPUT_ENDPOINT: ${file(./secrets/secrets.json):INPUT_ENDPOINT}
+      OUTPUT_ENDPOINT: ${file(./secrets/secrets.json):OUTPUT_ENDPOINT}
 
 # you can add packaging information here
 #package:
@@ -56,7 +58,15 @@ provider:
 
 functions:
   hello:
-    handler: handler.hello
+    handler: handlers/handler.hello
+
+  getPeople:
+    handler: handlers/getPeople.getPeople
+    events:
+    - http:
+        path: get-people
+        method: get
+        cors: true
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
