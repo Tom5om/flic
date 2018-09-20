@@ -20,6 +20,10 @@ service: flic2Action # NOTE: update this with your service name
 provider:
   name: aws
   runtime: nodejs8.10
+  environment:
+      DATABASE_NAME: ${file(./secrets/secrets.json):DATABASE_NAME}
+      INPUT_ENDPOINT: ${file(./secrets/secrets.json):INPUT_ENDPOINT}
+      OUTPUT_ENDPOINT: ${file(./secrets/secrets.json):OUTPUT_ENDPOINT}
 
 # you can overwrite defaults here
 #  stage: dev
