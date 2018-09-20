@@ -10,18 +10,19 @@ const sendSlackMessage = async (msg) => {
 module.exports.hello = async (event, context, callback) => {
 
     if (event.body) {
-        const body = JSON.parse(event.body);
 
-        if (body.clickType === "click") {
+        const inputBody = _.isObject(event.body) ? event.body : JSON.parse(event.body);
 
-            const people = await axios.get(process.env.INPUT_ENDPOINT);
+        if (inputBody.clickType === "click") {
 
-            let normalPerson = _.sample(people);
+            const endpointOutput = await axios.get(process.env.INPUT_ENDPOINT);
 
-            let result = await sendSlackMessage("You didn't choose the button, the button chose you! " + normalPerson.first_name + " " + normalPerson.last_name + " congratulations you are a winner.");
+            let randomItem = _.sample(endpointOutput.data);
+
+            let result = await sendSlackMessage("You didn't choose the button, the button chose you! " + randomItem + " congratulations you are a winner.");
 
         }
-        else if (body.clickType === "doubleclick") {
+        else if (inputBody.clickType === "doubleclick") {
 
         }
         else {
@@ -35,9 +36,11 @@ module.exports.hello = async (event, context, callback) => {
                 })
             };
         }
+    } else {
+
+        let result = await sendSlackMessage('No body info, just sending test message');
     }
 
-    let result = await sendSlackMessage('No body info, just sending test message');
 
     return {
         statusCode: 200,
@@ -47,6 +50,4 @@ module.exports.hello = async (event, context, callback) => {
         })
     };
 
-    // Use this code if you don't use the http event with the LAMBDA-PROXY integration
-    // return { message: 'Go Serverless v1.0! Your function executed successfully!', event };
 };
