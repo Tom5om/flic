@@ -9,8 +9,14 @@ module.exports.getPeople = async (event, context, callback) => {
     return {
         statusCode: 200,
         body: JSON.stringify([
-            "Tom Somerville",
-            "Cassie Moore"
+            "Tom",
+            "Kunal",
+            "Sune",
+            "Neena",
+            "Fawwad",
+            "Natalie",
+            "Xiaocheng",
+            "Jon"
         ])
     };
 

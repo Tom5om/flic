@@ -2,12 +2,16 @@
 
 const axios             = require('axios');
 const _                 = require('lodash');
+const AWS               = require('aws-sdk');
+
+const dynamoDb          = new AWS.DynamoDB.DocumentClient();
 
 const sendSlackMessage = async (msg) => {
     return await axios.post(process.env.OUTPUT_ENDPOINT, {"text": msg});
 };
 
-module.exports.hello = async (event, context, callback) => {
+
+module.exports.randomperson = async (event, context, callback) => {
 
     if (event.body) {
 
@@ -18,6 +22,36 @@ module.exports.hello = async (event, context, callback) => {
             const endpointOutput = await axios.get(process.env.INPUT_ENDPOINT);
 
             let randomItem = _.sample(endpointOutput.data);
+
+            /*const params = {
+                TableName: process.env.DYNAMODB_TABLE,
+                Item: {
+                    id: uuid.v1(),
+                    text: data.text,
+                    checked: false,
+                    createdAt: timestamp,
+                    updatedAt: timestamp,
+                },
+            };
+
+            dynamoDb.put(params, (error, data) => {
+                // Set response headers to enable CORS (Cross-Origin Resource Sharing)
+                const headers = {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Credentials": true
+                };
+
+                // Return status code 500 on error
+                if (error) {
+                    const response = {
+                        statusCode: 500,
+                        headers: headers,
+                        body: JSON.stringify({ status: false })
+                    };
+                    callback(null, response);
+                    return;
+                }
+            });*/
 
             let result = await sendSlackMessage("You didn't choose the button, the button chose you! " + randomItem + " congratulations you are a winner.");
 
